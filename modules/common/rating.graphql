@@ -1,7 +1,0 @@
-type Rating {
-    value: Int
-}
-
-input RatingInput {
-    value: Int
-}
