@@ -1,0 +1,12 @@
+type Category {
+  id: ID!
+  name: String
+  image: String
+  subcategories: [Subcategory!]!
+  products: [Product!]!
+}
+
+input CategoryInput {
+  name: String!
+  image: String
+}

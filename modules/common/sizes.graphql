@@ -1,0 +1,19 @@
+type Sizes {
+    xs: Int
+    s: Int
+    m: Int
+    l: Int
+    xl: Int
+    xxl: Int
+    oneSize: Int
+}
+
+input SizesInput {
+    xs: Int
+    s: Int
+    m: Int
+    l: Int
+    xl: Int
+    xxl: Int
+    oneSize: Int
+}
