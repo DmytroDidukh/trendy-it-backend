@@ -2,27 +2,34 @@ import { Schema, model } from 'mongoose';
 
 const productSchema = new Schema({
     name: String,
-    categoryId: {
-        type: Schema.Types.ObjectID,
-        ref: 'Category'
-    },
-    subcategoryId: {
-        type: Schema.Types.ObjectID,
-        ref: 'Subcategory'
-    },
-    sizes: {
-        xs: Number,
-        s: Number,
-        m: Number,
-        l: Number,
-        xl: Number,
-        xxl: Number,
-        oneSize: Number,
-    },
     description: String,
+    oldPrice: Number,
     price: Number,
-    images: [Object],
-    rating: [Object],
+    images: {
+        slider: String,
+        product: [Object]
+    },
+    colors: {
+        type: Object,
+        default: {
+            black: false,
+            silver: false,
+            white: false,
+            red: false,
+            yellow: false,
+            orange: false,
+            blue: false,
+            green: false,
+            purple: false,
+            pink: false,
+            brown: false,
+        }
+    },
+    available: Boolean,
+    hot: Boolean,
+    sale: Boolean,
+    newItem: Boolean,
+    toSlider: Boolean,
     createdAt: { type: Date, default: Date.now },
 });
 
