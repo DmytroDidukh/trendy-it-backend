@@ -1,31 +1,38 @@
+#import "modules/category/types.graphql"
+#import "modules/subcategory/types.graphql"
 #import "modules/product/types.graphql"
 #import "modules/order/types.graphql"
 #import "modules/user/types.graphql"
-#import "modules/banner/types.graphql"
 
 type Query {
+    getCategoryById(id: ID!): Category
+    getCategories: [Category!]!
+    getSubcategoryById(id: ID!): Subcategory
+    getSubcategories: [Subcategory!]!
     getProductById(id: ID!): Product
     getProducts: [Product!]!
     getOrderById(id: ID!): Order
     getOrders: [Order!]!
     getUsers: [User!]!
     getUserByToken: User
-    getBanners: [Banner!]!
-    getBannerByUsability: [Banner!]!
 }
 
 type Mutation {
+    addCategory(category: CategoryInput!): Category
+    updateCategory(id: ID!, category: CategoryInput!): Category
+    deleteCategory(id: ID): Category
+    addSubcategory(subcategory: SubcategoryInput!): Subcategory
+    updateSubcategory(id: ID!, subcategory: SubcategoryInput!): Subcategory
+    deleteSubcategory(id: ID!): Subcategory
     addProduct(product: ProductInput!): Product
     updateProduct(id: ID!, product: ProductInput!): Product
     deleteProduct(id: ID!): Product
+    updateProductRating(id: ID!, rate: Int): Product
     addOrder(order: OrderInput!): Order
     deleteOrder(id: ID!): Order
     updateOrderStatus(id: ID!, status: String): Order
     loginUser(user: UserInput!): User
     updateUserByToken(value: String!, key: String!, token: String!): User
     registerUser(user: UserInput!): User
-    addBanner(banner: BannerInput): Banner
-    updateBanner(id: ID!, banner: BannerInput): Banner
-    deleteBanner(id: ID!): Banner
 }
 
