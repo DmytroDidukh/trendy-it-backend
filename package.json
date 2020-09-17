@@ -1,7 +1,7 @@
 {
-  "name": "shkaff_backend",
+  "name": "trendy-it-backend",
   "version": "1.0.0",
-  "description": "backend for shkaff_store",
+  "description": "backend for trendy-it store",
   "main": "server.js",
   "scripts": {
     "start": "babel-watch server.js",
@@ -16,12 +16,12 @@
     "express",
     "server"
   ],
-  "author": "Viktor Syrytsia / Didukh Dmytro",
+  "author": "Didukh Dmytro",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ViktorSyrytsia/Shkaff_backend/issues"
+    "url": "https://github.com/DmytroDidukh/trendy-it-backend"
   },
-  "homepage": "https://github.com/ViktorSyrytsia/Shkaff_backend#readme",
+  "homepage": "https://github.com/DmytroDidukh/trendy-it-backend",
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "apollo-server": "^2.15.1",
