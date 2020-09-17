@@ -9,14 +9,6 @@ class ProductService {
         return Product.findById(id);
     }
 
-    getProductBySubcategoryId(id) {
-        return Product.find({subcategoryId: id})
-    }
-
-    getProductByCategoryId(id) {
-        return Product.find({categoryId: id})
-    }
-
     addProduct(data) {
         const product = new Product(data);
         return product.save();

@@ -28,11 +28,9 @@ const resolvers = {
     },
     Category: {
         subcategories: (parent) => SubcategoryService.getSubcategoriesByCategoryId(parent.id),
-        products: (parent) => ProductService.getProductByCategoryId(parent.id)
     },
     Subcategory: {
         category: (parent) => CategoryService.getCategoryById(parent.categoryId),
-        products: (parent) => ProductService.getProductBySubcategoryId(parent.id)
     },
     Product: {
         category: (parent) => CategoryService.getCategoryById(parent.categoryId),

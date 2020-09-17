@@ -17,6 +17,8 @@ type Product {
     newItem: Boolean
     toSlider: Boolean
     createdAt: Date
+    category: String
+    subcategory: String
 }
 
 input ProductInput {
@@ -31,4 +33,6 @@ input ProductInput {
     toSlider: Boolean
     images: ImagesInput
     colors: ColorsInput
+    category: String
+    subcategory: String
 }
