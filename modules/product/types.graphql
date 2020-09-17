@@ -1,28 +1,34 @@
-#import "../common/sizes.graphql"
-#import "../common/rating.graphql"
-#import "../common/imageSet.graphql"
+#import "../common/images.graphql"
+#import "../common/colors.graphql"
 
 scalar Date
 
 type Product {
     id: ID!
     name: String
-    category: Category
-    subcategory: Subcategory
     price: Float
+    oldPrice: Float
     description: String
-    sizes: Sizes
-    images: [ImageSet]
-    rating: [Rating]
+    images: Images
+    colors: Colors
+    available: Boolean
+    sale: Boolean
+    hot: Boolean
+    newItem: Boolean
+    toSlider: Boolean
     createdAt: Date
 }
 
 input ProductInput {
     name: String!
-    categoryId: ID!
-    subcategoryId: ID!
-    price: Float
-    description: String
-    sizes: SizesInput
-    images: [ImageSetInput]
+    price: Float!
+    oldPrice: Float
+    description: String!
+    available: Boolean
+    sale: Boolean
+    hot: Boolean
+    newItem: Boolean
+    toSlider: Boolean
+    images: ImagesInput
+    colors: ColorsInput
 }

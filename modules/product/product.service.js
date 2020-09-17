@@ -33,15 +33,6 @@ class ProductService {
     deleteProduct(id) {
         return Product.findByIdAndRemove(id)
     }
-
-    updateProductRating({id, rate}) {
-        return Product.findOneAndUpdate(
-            {_id: id},
-            {$push: {rating: {value: rate}}},
-            {returnOriginal: false},
-            (err, item) => console.log(item, err)
-        );
-    }
 }
 
 export default new ProductService();
