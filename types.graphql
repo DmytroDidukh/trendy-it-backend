@@ -1,0 +1,31 @@
+#import "modules/product/types.graphql"
+#import "modules/order/types.graphql"
+#import "modules/user/types.graphql"
+#import "modules/banner/types.graphql"
+
+type Query {
+    getProductById(id: ID!): Product
+    getProducts: [Product!]!
+    getOrderById(id: ID!): Order
+    getOrders: [Order!]!
+    getUsers: [User!]!
+    getUserByToken: User
+    getBanners: [Banner!]!
+    getBannerByUsability: [Banner!]!
+}
+
+type Mutation {
+    addProduct(product: ProductInput!): Product
+    updateProduct(id: ID!, product: ProductInput!): Product
+    deleteProduct(id: ID!): Product
+    addOrder(order: OrderInput!): Order
+    deleteOrder(id: ID!): Order
+    updateOrderStatus(id: ID!, status: String): Order
+    loginUser(user: UserInput!): User
+    updateUserByToken(value: String!, key: String!, token: String!): User
+    registerUser(user: UserInput!): User
+    addBanner(banner: BannerInput): Banner
+    updateBanner(id: ID!, banner: BannerInput): Banner
+    deleteBanner(id: ID!): Banner
+}
+

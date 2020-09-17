@@ -1,0 +1,13 @@
+type Customer {
+    name: String
+    surname: String
+    email: String
+    phone: String
+}
+
+input CustomerInput {
+    name: String
+    surname: String
+    email: String
+    phone: String
+}

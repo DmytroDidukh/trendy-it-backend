@@ -1,0 +1,15 @@
+#import "./address.graphql"
+
+type Delivery {
+    method: String
+    city: String
+    postOffice: String
+    address: Address
+}
+
+input DeliveryInput {
+    method: String
+    city: String
+    postOffice: String
+    address: AddressInput
+}

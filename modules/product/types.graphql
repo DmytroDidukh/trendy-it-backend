@@ -1,0 +1,34 @@
+#import "../common/images.graphql"
+#import "../common/colors.graphql"
+
+scalar Date
+
+type Product {
+    id: ID!
+    name: String
+    price: Float
+    oldPrice: Float
+    description: String
+    images: Images
+    colors: Colors
+    available: Boolean
+    sale: Boolean
+    hot: Boolean
+    newItem: Boolean
+    toSlider: Boolean
+    createdAt: Date
+}
+
+input ProductInput {
+    name: String!
+    price: Float!
+    oldPrice: Float
+    description: String!
+    available: Boolean
+    sale: Boolean
+    hot: Boolean
+    newItem: Boolean
+    toSlider: Boolean
+    images: ImagesInput
+    colors: ColorsInput
+}

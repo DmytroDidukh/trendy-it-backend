@@ -1,0 +1,11 @@
+type Address {
+    street: String
+    built: String
+    apartment: String
+}
+
+input AddressInput {
+    street: String
+    built: String
+    apartment: String
+}
