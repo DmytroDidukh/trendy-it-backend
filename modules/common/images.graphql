@@ -1,0 +1,11 @@
+#import "./imageSet.graphql"
+
+type Images {
+    slider: String,
+    product: [ImageSet]
+}
+
+input ImagesInput {
+    slider: String,
+    product: [ImageSetInput]
+}

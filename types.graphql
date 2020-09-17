@@ -3,6 +3,7 @@
 #import "modules/product/types.graphql"
 #import "modules/order/types.graphql"
 #import "modules/user/types.graphql"
+#import "modules/banner/types.graphql"
 
 type Query {
     getCategoryById(id: ID!): Category
@@ -15,6 +16,8 @@ type Query {
     getOrders: [Order!]!
     getUsers: [User!]!
     getUserByToken: User
+    getBanners: [Banner!]!
+    getBannerByUsability: [Banner!]!
 }
 
 type Mutation {
@@ -34,5 +37,8 @@ type Mutation {
     loginUser(user: UserInput!): User
     updateUserByToken(value: String!, key: String!, token: String!): User
     registerUser(user: UserInput!): User
+    addBanner(banner: BannerInput): Banner
+    updateBanner(id: ID!, banner: BannerInput): Banner
+    deleteBanner(id: ID!): Banner
 }
 

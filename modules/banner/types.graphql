@@ -1,0 +1,14 @@
+type Banner {
+    id: ID
+    title: String
+    description: String
+    image: String
+    toSlider: Boolean
+}
+
+input BannerInput {
+    title: String!
+    description: String!
+    image: String!
+    toSlider: Boolean!
+}
