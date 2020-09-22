@@ -28,7 +28,7 @@ const orderMailMessage = (order) => {
            <td style='border: 1px solid #333; text-align: center;'>${product.quantity}</td>
            <td style='border: 1px solid #333; text-align: center;'>${product.price}</td>
         </tr>`
-    ))
+    )).join('')
 
     const delivery = () => {
        switch (order.delivery.method) {
@@ -45,6 +45,9 @@ const orderMailMessage = (order) => {
                return `<p>Адреса:
                             <span style='font-weight: bold; margin-left: 5px;'>${order.delivery.city}, відділення ${order.delivery.postOffice}</span>
                         </p>`
+           }
+           default: {
+               return ''
            }
        }
     }
