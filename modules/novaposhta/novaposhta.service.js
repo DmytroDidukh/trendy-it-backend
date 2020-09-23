@@ -81,7 +81,7 @@ class NovaPoshtaService {
         const {
             citySender = 'db5c88f5-391c-11dd-90d9-001a92567626',
             cityRecipient,
-            weight,
+            weight = 5,
             serviceType = 'WarehouseDoors',
             cost,
             cargoType = 'Cargo',
