@@ -2,6 +2,7 @@
 #import "modules/order/types.graphql"
 #import "modules/user/types.graphql"
 #import "modules/banner/types.graphql"
+#import "modules/novaposhta/types.graphql"
 
 type Query {
     getProductById(id: ID!): Product
@@ -12,6 +13,11 @@ type Query {
     getUserByToken: User
     getBanners: [Banner!]!
     getBannerByUsability: [Banner!]!
+    getNovaPoshtaCities(city: String):[NovaPoshtaCity]
+    getNovaPoshtaStreets(cityRef: String, street: String):[NovaPoshtaStreet]
+    getNovaPoshtaWarehouses(city: String): [NovaPoshtaWarehouse]
+    getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
+    createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
 }
 
 type Mutation {
