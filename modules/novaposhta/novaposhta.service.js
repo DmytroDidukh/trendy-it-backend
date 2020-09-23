@@ -18,10 +18,11 @@ class NovaPoshtaService {
 
     async getNovaPoshtaCities(city){
         const res = await this.getNovaPoshtaRequest({
-            FindByString: city
+            FindByString: city,
+            Limit: 10
         }, 'Address', 'getCities')
 
-        return res.data.data.slice(0, 10).map(city => {
+        return res.data.data.map(city => {
             return {
                 description: city.Description,
                 ref: city.Ref,
@@ -33,15 +34,17 @@ class NovaPoshtaService {
     async getNovaPoshtaStreets(cityRef, street) {
         const res = await this.getNovaPoshtaRequest({
             CityRef: cityRef,
-            FindByString: street
+            FindByString: street,
+            Limit: 10
         }, 'Address', 'getStreet')
 
-        return res.data.data.slice(0, 10).map(street => {
+        return res.data.data.map(street => {
             return {
                 description: street.Description,
                 ref: street.Ref,
                 streetsTypeRef: street.StreetsTypeRef,
-                streetsType: street.StreetsType
+                streetsType: street.StreetsType,
+                present: `${street.StreetsType} ${street.Description}`,
             }
         })
     }
@@ -51,7 +54,7 @@ class NovaPoshtaService {
             CityName: city
         }, 'AddressGeneral', 'getWarehouses')
 
-        return res.data.data.slice(0, 10).map(warehouse => {
+        return res.data.data.map(warehouse => {
             return {
                 description: warehouse.Description,
                 shortAddress: warehouse.ShortAddress,
@@ -83,7 +86,8 @@ class NovaPoshtaService {
             cargoType = 'Cargo',
             seatsAmount = 1,
         } = data
-
+        // WarehouseWarehouse
+        // WarehouseDoors
         const res = await this.getNovaPoshtaRequest({
             CitySender: citySender,
             CityRecipient: cityRecipient,

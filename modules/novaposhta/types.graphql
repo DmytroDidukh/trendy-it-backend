@@ -9,6 +9,7 @@ type NovaPoshtaStreet {
     ref: String
     streetsTypeRef: String
     streetsType: String
+    present: String
 }
 
 type NovaPoshtaWarehouse {
