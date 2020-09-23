@@ -15,7 +15,7 @@ type Query {
     getBannerByUsability: [Banner!]!
     getNovaPoshtaCities(city: String):[NovaPoshtaCity]
     getNovaPoshtaStreets(cityRef: String, street: String):[NovaPoshtaStreet]
-    getNovaPoshtaWarehouses(city: String): [NovaPoshtaWarehouse]
+    getNovaPoshtaWarehouses(cityRef: String, city: String): [NovaPoshtaWarehouse]
     getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
     createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
 }

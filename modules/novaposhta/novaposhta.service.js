@@ -49,9 +49,10 @@ class NovaPoshtaService {
         })
     }
 
-    async getNovaPoshtaWarehouses(city){
+    async getNovaPoshtaWarehouses(city, cityRef){
         const res = await this.getNovaPoshtaRequest({
-            CityName: city
+            CityName: city,
+            CityRef: cityRef
         }, 'AddressGeneral', 'getWarehouses')
 
         return res.data.data.map(warehouse => {
