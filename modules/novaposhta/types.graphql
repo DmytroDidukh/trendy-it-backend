@@ -75,5 +75,7 @@ input NovaPoshtaPriceInput {
     serviceType: String
     cost: Float
     cargoType: String
+    redeliveryCargoType: String
+    redeliveryAmount: Int
     seatsAmount: Int
 }

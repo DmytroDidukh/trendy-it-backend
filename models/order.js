@@ -19,6 +19,7 @@ const orderSchema = new Schema({
     },
     products: [Object],
     connectionMethod: String,
+    paymentMethod: String,
     orderId: String,
     createdAt: { type: Date, default: Date.now },
     status: {type: String, default: 'processing'}

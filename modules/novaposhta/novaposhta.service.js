@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 class NovaPoshtaService {
-    async getNovaPoshtaRequest(properties, model, method){
+    async getNovaPoshtaRequest(properties, model, method) {
         return await axios.post(
             process.env.NOVA_POSHTA_API_LINK,
             {
@@ -16,7 +16,7 @@ class NovaPoshtaService {
         );
     }
 
-    async getNovaPoshtaCities(city){
+    async getNovaPoshtaCities(city) {
         const res = await this.getNovaPoshtaRequest({
             FindByString: city,
             Limit: 10
@@ -49,7 +49,7 @@ class NovaPoshtaService {
         })
     }
 
-    async getNovaPoshtaWarehouses(city, cityRef){
+    async getNovaPoshtaWarehouses(city, cityRef) {
         const res = await this.getNovaPoshtaRequest({
             CityName: city,
             CityRef: cityRef
@@ -60,7 +60,7 @@ class NovaPoshtaService {
                 description: warehouse.Description,
                 shortAddress: warehouse.ShortAddress,
                 number: warehouse.Number,
-                placeMaxWeightAllowed:  warehouse.PlaceMaxWeightAllowed,
+                placeMaxWeightAllowed: warehouse.PlaceMaxWeightAllowed,
                 totalMaxWeightAllowed: warehouse.TotalMaxWeightAllowed,
                 phone: warehouse.Phone,
                 ref: warehouse.Ref,
@@ -85,19 +85,29 @@ class NovaPoshtaService {
             serviceType = 'WarehouseDoors',
             cost,
             cargoType = 'Cargo',
+            redeliveryCargoType = 'Money',
+            redeliveryAmount = 0,
             seatsAmount = 1,
         } = data
-        // WarehouseWarehouse
-        // WarehouseDoors
-        const res = await this.getNovaPoshtaRequest({
+
+        const properties = {
             CitySender: citySender,
             CityRecipient: cityRecipient,
             Weight: weight,
             ServiceType: serviceType,
             Cost: cost,
             CargoType: cargoType,
-            SeatsAmount: seatsAmount,
-        }, 'InternetDocument', 'getDocumentPrice')
+            SeatsAmount: seatsAmount
+        }
+
+        if (redeliveryAmount) {
+            properties.RedeliveryCalculate = {
+                CargoType: redeliveryCargoType,
+                Amount: redeliveryAmount
+            }
+        }
+
+        const res = await this.getNovaPoshtaRequest(properties, 'InternetDocument', 'getDocumentPrice')
 
         return res.data.data.map(price => {
             return {
@@ -138,7 +148,7 @@ class NovaPoshtaService {
         const contactSender = await this.getSenderContact(sender.Ref)
 
         const res = await this.getNovaPoshtaRequest({
-            NewAddress:'1',
+            NewAddress: '1',
             CitySender: citySender,
             Weight: weight,
             ServiceType: serviceType,
@@ -157,15 +167,15 @@ class NovaPoshtaService {
             RecipientAreaRegions: recipientAreaRegions,
             RecipientHouse: recipientHouse,
             RecipientFlat: recipientFlat,
-            Sender:sender.Ref,
-            SenderAddress:address.Ref,
-            ContactSender:contactSender.Ref,
+            Sender: sender.Ref,
+            SenderAddress: address.Ref,
+            ContactSender: contactSender.Ref,
             SendersPhone: contactSender.Phones,
         }, 'InternetDocument', 'save')
 
         const document = res.data.data[0]
 
-        if(!document) {
+        if (!document) {
             throw Error('ORDER_CREATION_FAILED')
         }
 
