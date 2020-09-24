@@ -7,9 +7,11 @@ type Order {
     customer: Customer
     delivery: Delivery
     connectionMethod: String
+    paymentMethod: String
     products: [OrderProduct]
     status: String
     orderId: String
+    deliveryPrice: Int
     createdAt: Date
 }
 
@@ -17,7 +19,9 @@ input OrderInput {
     customer: CustomerInput!
     delivery: DeliveryInput!
     connectionMethod: String!
+    paymentMethod: String!
     products: [OrderProductInput]
     status: String
     orderId: String
+    deliveryPrice: Int
 }
