@@ -18,6 +18,7 @@ const orderSchema = new Schema({
         }
     },
     products: [Object],
+    deliveryPrice: {type: Number, default: 0},
     connectionMethod: String,
     paymentMethod: String,
     orderId: String,
