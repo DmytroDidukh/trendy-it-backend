@@ -9,6 +9,10 @@ class BannerService {
         return Banner.find({toSlider: true});
     }
 
+    getBannerById(id) {
+        return Banner.findById(id);
+    }
+
     addBanner(data) {
         const banner = new Banner(data);
         return banner.save();

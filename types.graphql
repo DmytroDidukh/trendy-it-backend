@@ -12,6 +12,7 @@ type Query {
     getUsers: [User!]!
     getUserByToken: User
     getBanners: [Banner!]!
+    getBannerById(id: ID!): Banner
     getBannerByUsability: [Banner!]!
     getNovaPoshtaCities(city: String):[NovaPoshtaCity]
     getNovaPoshtaStreets(cityRef: String, street: String):[NovaPoshtaStreet]
