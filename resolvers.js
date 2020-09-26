@@ -3,6 +3,7 @@ import {orderQuery, orderMutation} from './modules/order/order.resolver';
 import {userQuery, userMutation} from './modules/user/user.resolver';
 import {bannerQuery, bannerMutation} from './modules/banner/banner.resolver';
 import {novaPoshtaQuery, novaPoshtaMutation} from './modules/novaposhta/novaposhta.resolver';
+import {uploadQuery, uploadMutation} from './modules/upload/upload.resolver';
 
 const resolvers = {
     Query: {
@@ -11,6 +12,7 @@ const resolvers = {
         ...userQuery,
         ...bannerQuery,
         ...novaPoshtaQuery,
+        ...uploadQuery,
     },
     Mutation: {
         ...productMutation,
@@ -18,6 +20,7 @@ const resolvers = {
         ...userMutation,
         ...bannerMutation,
         ...novaPoshtaMutation,
+        ...uploadMutation,
     }};
 
 export default resolvers;

@@ -1,0 +1,5 @@
+type File {
+    asset_id: String
+    public_id: String
+    url: String
+}
