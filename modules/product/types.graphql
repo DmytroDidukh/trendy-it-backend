@@ -9,7 +9,7 @@ type Product {
     price: Float
     oldPrice: Float
     description: String
-    images: Images
+    images: ProductImages
     colors: Colors
     available: Boolean
     sale: Boolean
@@ -31,7 +31,7 @@ input ProductInput {
     hot: Boolean
     newItem: Boolean
     toSlider: Boolean
-    images: ImagesInput
+    images: ProductImagesInput
     colors: ColorsInput
     category: String
     subcategory: String

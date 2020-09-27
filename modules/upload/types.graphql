@@ -1,4 +1,11 @@
-type File {
+type Image {
+    asset_id: String
+    public_id: String
+    url: String
+    link: String
+}
+
+input ImageInput {
     asset_id: String
     public_id: String
     url: String

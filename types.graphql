@@ -20,7 +20,7 @@ type Query {
     getNovaPoshtaWarehouses(cityRef: String, city: String): [NovaPoshtaWarehouse]
     getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
     createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
-    uploadFile(file: String!): File
+    uploadFile(file: String!): Image
     deleteFile(file: String!): String
 }
 
