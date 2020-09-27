@@ -5,8 +5,6 @@
 #import "modules/novaposhta/types.graphql"
 #import "modules/upload/types.graphql"
 
-scalar Uploads
-
 type Query {
     getProductById(id: ID!): Product
     getProducts: [Product!]!
@@ -22,8 +20,8 @@ type Query {
     getNovaPoshtaWarehouses(cityRef: String, city: String): [NovaPoshtaWarehouse]
     getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
     createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
-    uploadFiles(files: [Uploads]): [File]
-    deleteFiles(files: [String]): [String]
+    uploadFile(file: String!): File
+    deleteFile(file: String!): String
 }
 
 type Mutation {

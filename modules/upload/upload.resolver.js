@@ -1,8 +1,8 @@
 import uploadService from './upload.service';
 
 const uploadQuery = {
-    uploadFiles: (_, args) => uploadService.uploadFiles(args.files),
-    deleteFiles: (_, args) => uploadService.deleteFiles(args.files),
+    uploadFile: (_, args) => uploadService.uploadFile(args.file),
+    deleteFile: (_, args) => uploadService.deleteFile(args.file),
 };
 
 const uploadMutation = {
