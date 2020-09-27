@@ -1,9 +1,9 @@
 type ProductImages {
-    slider: String,
+    slider: Image,
     product: [Image]
 }
 
 input ProductImagesInput {
-    slider: String,
+    slider: ImageInput,
     product: [ImageInput]
 }
