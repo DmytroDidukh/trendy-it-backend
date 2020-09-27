@@ -3,15 +3,21 @@ import cloudinary from '../../utils/cloudinary';
 
 class ImagesService {
     async uploadImage(image) {
-        return await cloudinary.v2.uploader.upload(
+        const uploadResult = await cloudinary.v2.uploader.upload(
             image, {
                 folder: "trendy-it"
             })
+
+        return {
+            assetId: uploadResult.asset_id,
+            publicId: uploadResult.public_id,
+            url: uploadResult.url,
+        }
     }
 
-    async deleteImage(image) {
-        const deleteResponse = await cloudinary.v2.api.delete_resources(image)
-        return Object.values(deleteResponse.deleted)[0]
+    async deleteImages(images) {
+        const deleteResult = await cloudinary.v2.api.delete_resources(images)
+        return Object.values(deleteResult.deleted)
     }
 }
 

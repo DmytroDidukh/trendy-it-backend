@@ -1,12 +1,12 @@
 type Image {
-    asset_id: String
-    public_id: String
+    assetId: String
+    publicId: String
     url: String
     link: String
 }
 
 input ImageInput {
-    asset_id: String
-    public_id: String
+    assetId: String
+    publicId: String
     url: String
 }

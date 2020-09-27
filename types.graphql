@@ -21,7 +21,7 @@ type Query {
     getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
     createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
     uploadImage(image: String!): Image
-    deleteImage(image: String!): String
+    deleteImages(images: [String]): [String]
 }
 
 type Mutation {
