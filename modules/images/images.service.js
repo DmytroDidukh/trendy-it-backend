@@ -1,18 +1,18 @@
 import cloudinary from '../../utils/cloudinary';
 
 
-class UploadService {
-    async uploadFile(file) {
+class ImagesService {
+    async uploadImage(image) {
         return await cloudinary.v2.uploader.upload(
-            file, {
+            image, {
                 folder: "trendy-it"
             })
     }
 
-    async deleteFile(file) {
-        const deleteResponse = await cloudinary.v2.api.delete_resources(file)
+    async deleteImage(image) {
+        const deleteResponse = await cloudinary.v2.api.delete_resources(image)
         return Object.values(deleteResponse.deleted)[0]
     }
 }
 
-export default new UploadService();
+export default new ImagesService();
