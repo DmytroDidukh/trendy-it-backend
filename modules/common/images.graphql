@@ -1,11 +1,9 @@
-#import "./imageSet.graphql"
-
-type Images {
-    slider: String,
-    product: [ImageSet]
+type ProductImages {
+    slider: Image,
+    product: [Image]
 }
 
-input ImagesInput {
-    slider: String,
-    product: [ImageSetInput]
+input ProductImagesInput {
+    slider: ImageInput,
+    product: [ImageInput]
 }

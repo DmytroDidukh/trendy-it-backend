@@ -6,7 +6,7 @@ const productSchema = new Schema({
     oldPrice: Number,
     price: Number,
     images: {
-        slider: String,
+        slider: Object,
         product: [Object]
     },
     colors: {

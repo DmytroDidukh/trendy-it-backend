@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ViktorSyrytsia/Shkaff_backend.git"
+    "url": "git+https://github.com/DmytroDidukh/trendy-it-backend"
   },
   "keywords": [
     "node",
@@ -36,6 +36,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-watch": "^7.0.0",
     "bcrypt": "^5.0.0",
+    "cloudinary": "^1.23.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",

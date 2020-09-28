@@ -1,0 +1,11 @@
+type Image {
+    assetId: String
+    publicId: String
+    url: String
+}
+
+input ImageInput {
+    assetId: String
+    publicId: String
+    url: String
+}

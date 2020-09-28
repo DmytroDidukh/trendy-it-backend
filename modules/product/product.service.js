@@ -1,4 +1,5 @@
 import {Product} from '../../models';
+import ImagesService from '../images/images.service'
 
 class ProductService {
     getProducts() {
@@ -22,8 +23,16 @@ class ProductService {
         );
     }
 
-    deleteProduct(id) {
-        return Product.findByIdAndRemove(id)
+    async deleteProduct(id) {
+        const currentProduct = await this.getProductById(id)
+        const {images} = currentProduct
+
+        const imagesToDelete = [images.slider, ...Object.values(images.product).map(img => img.publicId)]
+            .filter(val => val)
+
+        await ImagesService.deleteImages(imagesToDelete)
+
+        return  Product.findByIdAndRemove(id)
     }
 }
 

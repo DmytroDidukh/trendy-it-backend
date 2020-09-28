@@ -31,29 +31,36 @@ const orderMailMessage = (order) => {
     )).join('')
 
     const delivery = () => {
-       switch (order.delivery.method) {
-           case 'кур‘єром': {
-               return `<p>Адреса: <span style='font-weight: bold; margin-left: 5px;'> ${order.delivery.city},
+        switch (order.delivery.method) {
+            case 'кур‘єром': {
+                return `<p>Адреса: <span style='font-weight: bold; margin-left: 5px;'> ${order.delivery.city},
                                         вул. ${order.delivery.address.street},
                                         буд. ${order.delivery.address.built}
                                 ${order.delivery.address.apartment ?
-                                `<span style='font-weight: bold; margin-left: 5px;'>, кв. ${order.delivery.address.apartment} </span>` : ''}
+                    `<span style='font-weight: bold; margin-left: 5px;'>, кв. ${order.delivery.address.apartment} </span>` : ''}
                                    </span> 
                      </p>`
-           }
-           case 'на відділення Нової Пошти': {
-               return `<p>Адреса:
+            }
+            case 'на відділення Нової Пошти': {
+                return `<p>Адреса:
                             <span style='font-weight: bold; margin-left: 5px;'>${order.delivery.city}, відділення ${order.delivery.postOffice}</span>
                         </p>`
-           }
-           default: {
-               return ''
-           }
-       }
+            }
+            default: {
+                return ''
+            }
+        }
     }
 
+    const totalByProducts = order.products.reduce((sum, item) => sum + item.quantity * item.price, 0)
+    const deliveryPriceBlock = order.deliveryPrice ? `<p style='text-align: right;
+                                            margin: 10px;
+                                            font-size: 12px;'>
+                                    Ціна доставки: <span style='font-weight: bold; margin-left: 5px;'>${order.deliveryPrice} UAH</span>
+                                  </p>` : ''
 
-    return `
+
+    return `                                        
     <div style='border: 1px solid silver;
                 margin: 50px auto;
                 border-radius: 20px;
@@ -104,8 +111,13 @@ const orderMailMessage = (order) => {
                 <hr/>
                 <p style='text-align: right;
                           margin: 10px;
-                          font-size: 16px;'>
-                          Сума: <span style='font-weight: bold; margin-left: 5px;'>${order.products.reduce((sum, item) => sum + item.quantity * item.price, 0)} UAH</span></p>
+                          font-size: 12px;'>
+                          Сума товару: <span style='font-weight: bold; margin-left: 5px;'>${totalByProducts} UAH</span></p>
+                ${deliveryPriceBlock}
+                <p style='text-align: right;
+                          margin: 10px;
+                          font-size: 14px;'>
+                Загалом: <span style='font-weight: bold; margin-left: 5px;'>${totalByProducts + order.deliveryPrice} UAH</span></p>
                 <hr/>
                 <p>Наш менеджер зв‘яжеться з Вами у зручний для Вас спосіб.</p>
                 <h4>З найкращими побажаннями, команда Trendy IT 

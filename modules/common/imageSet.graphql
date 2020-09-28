@@ -1,7 +1,0 @@
-type ImageSet {
-    link: String
-}
-
-input ImageSetInput {
-    link: String
-}
