@@ -1,4 +1,5 @@
 import {Banner} from '../../models';
+import ImagesService from '../images/images.service'
 
 class BannerService {
     getBanners() {
@@ -26,7 +27,14 @@ class BannerService {
         );
     }
 
-    deleteBanner(id) {
+    async deleteBanner(id) {
+        const currentBanner = await this.getBannerById(id)
+        const {image} = currentBanner
+
+        if (image) {
+            await ImagesService.deleteImages([image.publicId])
+        }
+
         return Banner.findByIdAndRemove(id)
     }
 }
