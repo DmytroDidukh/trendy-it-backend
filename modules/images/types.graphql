@@ -2,7 +2,6 @@ type Image {
     assetId: String
     publicId: String
     url: String
-    link: String
 }
 
 input ImageInput {
