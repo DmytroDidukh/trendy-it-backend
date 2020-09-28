@@ -25,7 +25,7 @@ input ProductInput {
     name: String!
     price: Float!
     oldPrice: Float
-    description: String!
+    description: String
     available: Boolean
     sale: Boolean
     hot: Boolean
