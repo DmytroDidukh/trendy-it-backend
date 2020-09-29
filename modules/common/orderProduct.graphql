@@ -1,13 +1,13 @@
 type OrderProduct {
-    name: String
-    price: Int
-    color: String
-    quantity: Int
+  name: String
+  price: Int
+  color: String
+  quantity: Int
 }
 
 input OrderProductInput {
-    name: String
-    price: Int
-    color: String
-    quantity: Int = 1
+  name: String
+  price: Int
+  color: String
+  quantity: Int = 1
 }

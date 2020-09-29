@@ -1,224 +1,253 @@
-import axios from 'axios'
-import dotenv from 'dotenv'
+import axios from 'axios';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 class NovaPoshtaService {
-    async getNovaPoshtaRequest(properties, model, method) {
-        return await axios.post(
-            process.env.NOVA_POSHTA_API_LINK,
-            {
-                modelName: model,
-                calledMethod: method,
-                methodProperties: properties,
-                apiKey: process.env.NOVA_POSHTA_API_KEY
-            }
-        );
-    }
+  async getNovaPoshtaRequest(properties, model, method) {
+    return await axios.post(process.env.NOVA_POSHTA_API_LINK, {
+      modelName: model,
+      calledMethod: method,
+      methodProperties: properties,
+      apiKey: process.env.NOVA_POSHTA_API_KEY
+    });
+  }
 
-    async getNovaPoshtaCities(city) {
-        const res = await this.getNovaPoshtaRequest({
-            FindByString: city,
-            Limit: 10
-        }, 'Address', 'getCities')
+  async getNovaPoshtaCities(city) {
+    const res = await this.getNovaPoshtaRequest(
+      {
+        FindByString: city,
+        Limit: 10
+      },
+      'Address',
+      'getCities'
+    );
 
-        return res.data.data.map(city => {
-            return {
-                description: city.Description,
-                ref: city.Ref,
-                cityID: city.CityID
-            }
-        });
-    }
+    return res.data.data.map((city) => {
+      return {
+        description: city.Description,
+        ref: city.Ref,
+        cityID: city.CityID
+      };
+    });
+  }
 
-    async getNovaPoshtaStreets(cityRef, street) {
-        const res = await this.getNovaPoshtaRequest({
-            CityRef: cityRef,
-            FindByString: street,
-            Limit: 10
-        }, 'Address', 'getStreet')
+  async getNovaPoshtaStreets(cityRef, street) {
+    const res = await this.getNovaPoshtaRequest(
+      {
+        CityRef: cityRef,
+        FindByString: street,
+        Limit: 10
+      },
+      'Address',
+      'getStreet'
+    );
 
-        return res.data.data.map(street => {
-            return {
-                description: street.Description,
-                ref: street.Ref,
-                streetsTypeRef: street.StreetsTypeRef,
-                streetsType: street.StreetsType,
-                present: `${street.StreetsType} ${street.Description}`,
-            }
-        })
-    }
+    return res.data.data.map((street) => {
+      return {
+        description: street.Description,
+        ref: street.Ref,
+        streetsTypeRef: street.StreetsTypeRef,
+        streetsType: street.StreetsType,
+        present: `${street.StreetsType} ${street.Description}`
+      };
+    });
+  }
 
-    async getNovaPoshtaWarehouses(city, cityRef) {
-        const res = await this.getNovaPoshtaRequest({
-            CityName: city,
-            CityRef: cityRef
-        }, 'AddressGeneral', 'getWarehouses')
+  async getNovaPoshtaWarehouses(city, cityRef) {
+    const res = await this.getNovaPoshtaRequest(
+      {
+        CityName: city,
+        CityRef: cityRef
+      },
+      'AddressGeneral',
+      'getWarehouses'
+    );
 
-        return res.data.data.map(warehouse => {
-            return {
-                description: warehouse.Description,
-                shortAddress: warehouse.ShortAddress,
-                number: warehouse.Number,
-                placeMaxWeightAllowed: warehouse.PlaceMaxWeightAllowed,
-                totalMaxWeightAllowed: warehouse.TotalMaxWeightAllowed,
-                phone: warehouse.Phone,
-                ref: warehouse.Ref,
-                schedule: {
-                    monday: warehouse.Schedule.Monday,
-                    tuesday: warehouse.Schedule.Tuesday,
-                    wednesday: warehouse.Schedule.Wednesday,
-                    thursday: warehouse.Schedule.Thursday,
-                    friday: warehouse.Schedule.Friday,
-                    saturday: warehouse.Schedule.Saturday,
-                    sunday: warehouse.Schedule.Sunday,
-                },
-            }
-        });
-    }
-
-    async getNovaPoshtaPrices(data) {
-        const {
-            citySender = 'db5c88f5-391c-11dd-90d9-001a92567626',
-            cityRecipient,
-            weight = 5,
-            serviceType = 'WarehouseDoors',
-            cost,
-            cargoType = 'Cargo',
-            redeliveryCargoType = 'Money',
-            redeliveryAmount = 0,
-            seatsAmount = 1,
-        } = data
-
-        const properties = {
-            CitySender: citySender,
-            CityRecipient: cityRecipient,
-            Weight: weight,
-            ServiceType: serviceType,
-            Cost: cost,
-            CargoType: cargoType,
-            SeatsAmount: seatsAmount
+    return res.data.data.map((warehouse) => {
+      return {
+        description: warehouse.Description,
+        shortAddress: warehouse.ShortAddress,
+        number: warehouse.Number,
+        placeMaxWeightAllowed: warehouse.PlaceMaxWeightAllowed,
+        totalMaxWeightAllowed: warehouse.TotalMaxWeightAllowed,
+        phone: warehouse.Phone,
+        ref: warehouse.Ref,
+        schedule: {
+          monday: warehouse.Schedule.Monday,
+          tuesday: warehouse.Schedule.Tuesday,
+          wednesday: warehouse.Schedule.Wednesday,
+          thursday: warehouse.Schedule.Thursday,
+          friday: warehouse.Schedule.Friday,
+          saturday: warehouse.Schedule.Saturday,
+          sunday: warehouse.Schedule.Sunday
         }
+      };
+    });
+  }
 
-        if (redeliveryAmount) {
-            properties.RedeliveryCalculate = {
-                CargoType: redeliveryCargoType,
-                Amount: redeliveryAmount
-            }
-        }
+  async getNovaPoshtaPrices(data) {
+    const {
+      citySender = 'db5c88f5-391c-11dd-90d9-001a92567626',
+      cityRecipient,
+      weight = 5,
+      serviceType = 'WarehouseDoors',
+      cost,
+      cargoType = 'Cargo',
+      redeliveryCargoType = 'Money',
+      redeliveryAmount = 0,
+      seatsAmount = 1
+    } = data;
 
-        const res = await this.getNovaPoshtaRequest(properties, 'InternetDocument', 'getDocumentPrice')
+    const properties = {
+      CitySender: citySender,
+      CityRecipient: cityRecipient,
+      Weight: weight,
+      ServiceType: serviceType,
+      Cost: cost,
+      CargoType: cargoType,
+      SeatsAmount: seatsAmount
+    };
 
-        return res.data.data.map(price => {
-            return {
-                assessedCost: price.AssessedCost,
-                cost: price.Cost,
-                costRedelivery: price.CostRedelivery,
-                costPack: price.CostPack,
-            }
-        })
+    if (redeliveryAmount) {
+      properties.RedeliveryCalculate = {
+        CargoType: redeliveryCargoType,
+        Amount: redeliveryAmount
+      };
     }
 
-    async createNovaPoshtaOrder(data) {
-        const {
-            citySender = 'db5c88f5-391c-11dd-90d9-001a92567626',
-            weight,
-            payerType = 'Sender',
-            paymentMethod = 'Cash',
-            serviceType = 'WarehouseWarehouse',
-            cost,
-            cargoType = 'Parcel',
-            seatsAmount = 1,
-            description,
-            recipientCityName,
-            recipientAddressName,
-            recipientName = 'Тест Тест Тест',
-            recipientType = 'PrivatePerson',
-            recipientsPhone,
-            recipientArea = '',
-            recipientAreaRegions = '',
-            recipientHouse = '',
-            recipientFlat = '',
-        } = data
+    const res = await this.getNovaPoshtaRequest(
+      properties,
+      'InternetDocument',
+      'getDocumentPrice'
+    );
 
-        const sender = await this.getSenderCounterparty()
+    return res.data.data.map((price) => {
+      return {
+        assessedCost: price.AssessedCost,
+        cost: price.Cost,
+        costRedelivery: price.CostRedelivery,
+        costPack: price.CostPack
+      };
+    });
+  }
 
-        const address = await this.getSenderAddress(citySender)
+  async createNovaPoshtaOrder(data) {
+    const {
+      citySender = 'db5c88f5-391c-11dd-90d9-001a92567626',
+      weight,
+      payerType = 'Sender',
+      paymentMethod = 'Cash',
+      serviceType = 'WarehouseWarehouse',
+      cost,
+      cargoType = 'Parcel',
+      seatsAmount = 1,
+      description,
+      recipientCityName,
+      recipientAddressName,
+      recipientName = 'Тест Тест Тест',
+      recipientType = 'PrivatePerson',
+      recipientsPhone,
+      recipientArea = '',
+      recipientAreaRegions = '',
+      recipientHouse = '',
+      recipientFlat = ''
+    } = data;
 
-        const contactSender = await this.getSenderContact(sender.Ref)
+    const sender = await this.getSenderCounterparty();
 
-        const res = await this.getNovaPoshtaRequest({
-            NewAddress: '1',
-            CitySender: citySender,
-            Weight: weight,
-            ServiceType: serviceType,
-            Cost: cost,
-            CargoType: cargoType,
-            SeatsAmount: seatsAmount,
-            Description: description,
-            RecipientCityName: recipientCityName,
-            RecipientAddressName: recipientAddressName,
-            RecipientName: recipientName,
-            RecipientType: recipientType,
-            RecipientsPhone: recipientsPhone,
-            PayerType: payerType,
-            PaymentMethod: paymentMethod,
-            RecipientArea: recipientArea,
-            RecipientAreaRegions: recipientAreaRegions,
-            RecipientHouse: recipientHouse,
-            RecipientFlat: recipientFlat,
-            Sender: sender.Ref,
-            SenderAddress: address.Ref,
-            ContactSender: contactSender.Ref,
-            SendersPhone: contactSender.Phones,
-        }, 'InternetDocument', 'save')
+    const address = await this.getSenderAddress(citySender);
 
-        const document = res.data.data[0]
+    const contactSender = await this.getSenderContact(sender.Ref);
 
-        if (!document) {
-            throw Error('ORDER_CREATION_FAILED')
-        }
+    const res = await this.getNovaPoshtaRequest(
+      {
+        NewAddress: '1',
+        CitySender: citySender,
+        Weight: weight,
+        ServiceType: serviceType,
+        Cost: cost,
+        CargoType: cargoType,
+        SeatsAmount: seatsAmount,
+        Description: description,
+        RecipientCityName: recipientCityName,
+        RecipientAddressName: recipientAddressName,
+        RecipientName: recipientName,
+        RecipientType: recipientType,
+        RecipientsPhone: recipientsPhone,
+        PayerType: payerType,
+        PaymentMethod: paymentMethod,
+        RecipientArea: recipientArea,
+        RecipientAreaRegions: recipientAreaRegions,
+        RecipientHouse: recipientHouse,
+        RecipientFlat: recipientFlat,
+        Sender: sender.Ref,
+        SenderAddress: address.Ref,
+        ContactSender: contactSender.Ref,
+        SendersPhone: contactSender.Phones
+      },
+      'InternetDocument',
+      'save'
+    );
 
-        return {
-            ref: document.Ref,
-            costOnSite: document.CostOnSite,
-            intDocNumber: document.IntDocNumber,
-            typeDocument: document.TypeDocument
-        }
+    const document = res.data.data[0];
+
+    if (!document) {
+      throw Error('ORDER_CREATION_FAILED');
     }
 
-    async getSenderCounterparty() {
-        const res = await this.getNovaPoshtaRequest({
-            CounterpartyProperty: 'Sender',
-            Page: '1'
-        }, 'Counterparty', 'getCounterparties')
+    return {
+      ref: document.Ref,
+      costOnSite: document.CostOnSite,
+      intDocNumber: document.IntDocNumber,
+      typeDocument: document.TypeDocument
+    };
+  }
 
-        return res.data.data[0]
-    }
+  async getSenderCounterparty() {
+    const res = await this.getNovaPoshtaRequest(
+      {
+        CounterpartyProperty: 'Sender',
+        Page: '1'
+      },
+      'Counterparty',
+      'getCounterparties'
+    );
 
-    async getSenderAddress(cityRef) {
-        const sender = await this.getSenderCounterparty()
+    return res.data.data[0];
+  }
 
-        const street = await this.getNovaPoshtaStreets(cityRef, 'Литвиненка')
+  async getSenderAddress(cityRef) {
+    const sender = await this.getSenderCounterparty();
 
-        const res = await this.getNovaPoshtaRequest({
-            CounterpartyRef: sender.Ref,
-            StreetRef: street[0].ref,
-            BuildingNumber: '8',
-            Flat: '1',
-        }, 'Address', 'save')
+    const street = await this.getNovaPoshtaStreets(cityRef, 'Литвиненка');
 
-        return res.data.data[0]
-    }
+    const res = await this.getNovaPoshtaRequest(
+      {
+        CounterpartyRef: sender.Ref,
+        StreetRef: street[0].ref,
+        BuildingNumber: '8',
+        Flat: '1'
+      },
+      'Address',
+      'save'
+    );
 
-    async getSenderContact(sender) {
-        const res = await this.getNovaPoshtaRequest({
-            Ref: sender,
-            Page: '1'
-        }, 'Counterparty', 'getCounterpartyContactPersons')
+    return res.data.data[0];
+  }
 
-        return res.data.data[0]
-    }
+  async getSenderContact(sender) {
+    const res = await this.getNovaPoshtaRequest(
+      {
+        Ref: sender,
+        Page: '1'
+      },
+      'Counterparty',
+      'getCounterpartyContactPersons'
+    );
+
+    return res.data.data[0];
+  }
 }
 
 export default new NovaPoshtaService();

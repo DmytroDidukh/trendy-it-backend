@@ -1,11 +1,10 @@
 import uploadService from './images.service';
 
 const imagesQuery = {
-    uploadImage: (_, args) => uploadService.uploadImage(args.image),
-    deleteImages: (_, args) => uploadService.deleteImages(args.images),
+  uploadImage: (_, args) => uploadService.uploadImage(args.image),
+  deleteImages: (_, args) => uploadService.deleteImages(args.images)
 };
 
-const imagesMutation = {
-};
+const imagesMutation = {};
 
-export {imagesQuery, imagesMutation};
+export { imagesQuery, imagesMutation };
