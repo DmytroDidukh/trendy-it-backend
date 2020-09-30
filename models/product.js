@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const productSchema = new Schema({
   name: String,
@@ -32,5 +33,7 @@ const productSchema = new Schema({
   toSlider: Boolean,
   createdAt: { type: Date, default: Date.now }
 });
+
+productSchema.plugin(mongoosePaginate)
 
 export default model('Product', productSchema);

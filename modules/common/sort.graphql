@@ -1,0 +1,6 @@
+input SortInput {
+  price: Int
+  hot: Int
+  newItem: Int,
+  createdAt: Int
+}
