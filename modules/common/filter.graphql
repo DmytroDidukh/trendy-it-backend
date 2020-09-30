@@ -6,4 +6,6 @@ input FilterInput {
   available: Boolean
   newItem: Boolean
   sale: Boolean
+  toSlider: Boolean
+  isHomeQuery: Boolean
 }

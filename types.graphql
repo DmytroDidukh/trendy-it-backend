@@ -9,7 +9,7 @@
 
 type Query {
   getProductById(id: ID!): Product
-  getProducts(filter: FilterInput, sort: SortInput, page: Int): PaginatedProduct
+  getProducts(filter: FilterInput, sort: SortInput, page: Int, limit: Int): PaginatedProduct
   getOrderById(id: ID!): Order
   getOrders: [Order!]!
   getUsers: [User!]!

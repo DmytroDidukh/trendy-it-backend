@@ -1,106 +1,125 @@
-import { Product } from '../../models';
+import {Product} from '../../models';
 import ImagesService from '../images/images.service';
 
 class ProductService {
-  async getProducts({ filter, sort, page }) {
-    const query = this.filterItems(filter);
-    const options = {
-      page: parseInt(page, 10) || 1,
-      limit: 10,
-      sort: sort
-    };
+    async getProducts({filter, sort, page, limit}) {
+        const query = this.filterItems(filter);
+        const options = {
+            page: parseInt(page, 10) || 1,
+            limit: parseInt(limit, 10) || 12,
+            sort: sort
+        };
 
-    return await Product.paginate(query, options, (err, result) => ({
-      products: result.docs,
-      pagination: {
-        totalDocs: result.totalDocs,
-        totalPages: result.totalPages,
-        hasPrevPage: result.hasPrevPage,
-        hasNextPage: result.hasNextPage
-      }
-    }));
-  }
-
-  filterItems(args = {}) {
-    const { colors, priceRange, search, hot, available, newItem, sale } = args;
-
-    const filter = {};
-
-    if (hot) {
-      filter.hot = hot;
+        return await Product.paginate(query, options, (err, result) => ({
+            products: result.docs,
+            pagination: {
+                totalDocs: result.totalDocs,
+                totalPages: result.totalPages,
+                hasPrevPage: result.hasPrevPage,
+                hasNextPage: result.hasNextPage
+            }
+        }));
     }
 
-    if (available) {
-      filter.available = available;
-    }
+    filterItems(args = {}) {
+        const {colors, priceRange, search, hot, available, newItem, sale, toSlider, isHomeQuery} = args;
 
-    if (newItem) {
-      filter.newItem = newItem;
-    }
-
-    if (sale) {
-      filter.sale = sale;
-    }
-
-    if (colors && colors.length) {
-      filter.colors = {
-        $elemMatch: { $in: colors }
-      };
-    }
-
-    if (priceRange && priceRange.length) {
-      filter.price = {
-        $gte: priceRange[0],
-        $lte: priceRange[1]
-      };
-    }
-
-    if (!(!search || search.trim().length === 0)) {
-      filter.$or = [
-        {
-          name: { $regex: new RegExp(search, 'i') }
-        },
-        {
-          description: {
-            $regex: new RegExp(search, 'i')
-          }
+        if (isHomeQuery) {
+            return {available: true, $or: [{hot: true}, {toSlider: true}]}
         }
-      ];
+
+        const query = {};
+
+        if (hot) {
+            query.hot = hot;
+        }
+
+        if (toSlider) {
+            query.toSlider = toSlider;
+        }
+
+        if (available) {
+            query.available = available;
+        }
+
+        if (newItem) {
+            query.newItem = newItem;
+        }
+
+        if (sale) {
+            query.sale = sale;
+        }
+
+        if (colors && colors.length) {
+            query.colors = {
+                $elemMatch: {$in: colors}
+            };
+        }
+
+        if (priceRange && priceRange.length) {
+            query.price = {
+                $gte: priceRange[0],
+                $lte: priceRange[1]
+            };
+        }
+
+        if (!(!search || search.trim().length === 0)) {
+            query.$or = [
+                {
+                    name: {$regex: new RegExp(search, 'i')}
+                },
+                {
+                    description: {
+                        $regex: new RegExp(search, 'i')
+                    }
+                }
+            ];
+        }
+
+        return query;
     }
 
-    return filter;
-  }
+    async getHomeProducts() {
+        const query = this.filterItems(filter);
+        const options = {
+            page: parseInt(page, 10) || 1,
+            limit: parseInt(limit, 10) || 10,
+            sort: sort
+        };
 
-  getProductById(id) {
-    return Product.findById(id);
-  }
+        return await Product.find({available: true, $or: [{hot: true}, {toSlider: true}]});
+    }
 
-  addProduct(data) {
-    const product = new Product(data);
-    return product.save();
-  }
+    getProductById(id) {
+        return Product.findById(id);
+    }
 
-  updateProduct({ id, product }) {
-    return Product.findByIdAndUpdate(
-      id,
-      { $set: { ...product } },
-      { new: true }
-    );
-  }
+    addProduct(data) {
+        const product = new Product(data);
+        return product.save();
+    }
 
-  async deleteProduct(id) {
-    const currentProduct = await this.getProductById(id);
-    const { images } = currentProduct;
+    updateProduct({id, product}) {
+        return Product.findByIdAndUpdate(
+            id,
+            {$set: {...product}},
+            {new: true}
+        );
+    }
 
-    const imagesToDelete = [
-      images.slider,
-      ...Object.values(images.product).map((img) => img.publicId)
-    ].filter((val) => val);
+    async deleteProduct(id) {
+        const currentProduct = await this.getProductById(id);
+        const {images} = currentProduct;
 
-    await ImagesService.deleteImages(imagesToDelete);
+        const imagesToDelete = [
+            images.slider,
+            ...Object.values(images.product).map((img) => img.publicId)
+        ].filter((val) => val);
 
-    return Product.findByIdAndRemove(id);
-  }
+        await ImagesService.deleteImages(imagesToDelete);
+
+        return Product.findByIdAndRemove(id);
+    }
 }
 
 export default new ProductService();
