@@ -1,5 +1,4 @@
 #import "../common/images.graphql"
-#import "../common/colors.graphql"
 
 scalar Date
 
@@ -10,15 +9,13 @@ type Product {
   oldPrice: Float
   description: String
   images: ProductImages
-  colors: Colors
+  colors: [String]
   available: Boolean
   sale: Boolean
   hot: Boolean
   newItem: Boolean
   toSlider: Boolean
   createdAt: Date
-  category: String
-  subcategory: String
 }
 
 input ProductInput {
@@ -32,7 +29,5 @@ input ProductInput {
   newItem: Boolean
   toSlider: Boolean
   images: ProductImagesInput
-  colors: ColorsInput
-  category: String
-  subcategory: String
+  colors: [String]
 }
