@@ -1,79 +1,106 @@
-import {Product} from '../../models';
+import { Product } from '../../models';
 import ImagesService from '../images/images.service';
 
 class ProductService {
-    async getProducts() {
-        const sort = {
-            createdAt: -1
+  async getProducts({ filter, sort, page }) {
+    const query = this.filterItems(filter);
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: 10,
+      sort: sort
+    };
+
+    return await Product.paginate(query, options, (err, result) => ({
+      products: result.docs,
+      pagination: {
+        totalDocs: result.totalDocs,
+        totalPages: result.totalPages,
+        hasPrevPage: result.hasPrevPage,
+        hasNextPage: result.hasNextPage
+      }
+    }));
+  }
+
+  filterItems(args = {}) {
+    const { colors, priceRange, search, hot, available, newItem, sale } = args;
+
+    const filter = {};
+
+    if (hot) {
+      filter.hot = hot;
+    }
+
+    if (available) {
+      filter.available = available;
+    }
+
+    if (newItem) {
+      filter.newItem = newItem;
+    }
+
+    if (sale) {
+      filter.sale = sale;
+    }
+
+    if (colors && colors.length) {
+      filter.colors = {
+        $elemMatch: { $in: colors }
+      };
+    }
+
+    if (priceRange && priceRange.length) {
+      filter.price = {
+        $gte: priceRange[0],
+        $lte: priceRange[1]
+      };
+    }
+
+    if (!(!search || search.trim().length === 0)) {
+      filter.$or = [
+        {
+          name: { $regex: new RegExp(search, 'i') }
+        },
+        {
+          description: {
+            $regex: new RegExp(search, 'i')
+          }
         }
-
-        const page = 1
-
-
-        const options = {
-            page: page,
-            limit: 5,
-            sort: sort
-        };
-
-        const colors = [{red: true}]
-        /*    colors: { $all: [
-                    { "$elemMatch" : { size: "M", num: { $gt: 50} } },
-                    { "$elemMatch" : { num : 100, color: "green" } }
-                ] }*/
-        const filters = {
-            /*    price: {
-                    $gte: 50,
-                    $lte: 500,
-                },
-                name: {$regex: new RegExp('test', 'i')},*/
-
-             colors: {
-                 red: true
-             }
-
-        }
-
-        const products = Product.paginate(filters, options, (err, result) => {
-            console.log(result)
-            return result.docs
-        })
-
-        return products
-
+      ];
     }
 
-    getProductById(id) {
-        return Product.findById(id);
-    }
+    return filter;
+  }
 
-    addProduct(data) {
-        const product = new Product(data);
-        return product.save();
-    }
+  getProductById(id) {
+    return Product.findById(id);
+  }
 
-    updateProduct({id, product}) {
-        return Product.findByIdAndUpdate(
-            id,
-            {$set: {...product}},
-            {new: true}
-        );
-    }
+  addProduct(data) {
+    const product = new Product(data);
+    return product.save();
+  }
 
-    async deleteProduct(id) {
-        const currentProduct = await this.getProductById(id);
-        const {images} = currentProduct;
+  updateProduct({ id, product }) {
+    return Product.findByIdAndUpdate(
+      id,
+      { $set: { ...product } },
+      { new: true }
+    );
+  }
 
-        const imagesToDelete = [
-            images.slider,
-            ...Object.values(images.product).map((img) => img.publicId)
-        ].filter((val) => val);
+  async deleteProduct(id) {
+    const currentProduct = await this.getProductById(id);
+    const { images } = currentProduct;
 
-        await ImagesService.deleteImages(imagesToDelete);
+    const imagesToDelete = [
+      images.slider,
+      ...Object.values(images.product).map((img) => img.publicId)
+    ].filter((val) => val);
 
-        return Product.findByIdAndRemove(id);
-    }
+    await ImagesService.deleteImages(imagesToDelete);
+
+    return Product.findByIdAndRemove(id);
+  }
 }
 
 export default new ProductService();
-

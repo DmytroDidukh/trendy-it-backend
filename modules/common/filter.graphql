@@ -1,6 +1,9 @@
 input FilterInput {
-  color: Int
-  hot: Int
-  newItem: Int,
-  createdAt: Int
+  colors: [String]
+  priceRange: [Int]
+  search: String
+  hot: Boolean
+  available: Boolean
+  newItem: Boolean
+  sale: Boolean
 }

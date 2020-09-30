@@ -1,4 +1,5 @@
 #import "../common/images.graphql"
+#import "../common/pagination.graphql"
 
 scalar Date
 
@@ -16,6 +17,11 @@ type Product {
   newItem: Boolean
   toSlider: Boolean
   createdAt: Date
+}
+
+type PaginatedProduct {
+  products: [Product]
+  pagination: Pagination
 }
 
 input ProductInput {

@@ -1,7 +1,7 @@
 import productService from './product.service';
 
 const productQuery = {
-  getProducts: (_, args) => productService.getProducts(args.page, args.perPage),
+  getProducts: (_, args) => productService.getProducts(args),
   getProductById: (parent, args) => productService.getProductById(args.id)
 };
 

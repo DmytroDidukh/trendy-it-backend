@@ -1,6 +1,8 @@
 input SortInput {
   price: Int
   hot: Int
-  newItem: Int,
+  newItem: Int
+  sale: Int
+  available: Int
   createdAt: Int
 }

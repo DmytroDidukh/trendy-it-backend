@@ -1,0 +1,6 @@
+type Pagination {
+  totalDocs: Int
+  totalPages: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+}
