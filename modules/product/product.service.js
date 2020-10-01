@@ -14,6 +14,7 @@ class ProductService {
             products: result.docs,
             pagination: {
                 totalDocs: result.totalDocs,
+                currentPage: result.page,
                 totalPages: result.totalPages,
                 hasPrevPage: result.hasPrevPage,
                 hasNextPage: result.hasNextPage
