@@ -4,10 +4,12 @@
 #import "modules/banner/types.graphql"
 #import "modules/novaposhta/types.graphql"
 #import "modules/images/types.graphql"
+#import "modules/common/filter.graphql"
+#import "modules/common/sort.graphql"
 
 type Query {
   getProductById(id: ID!): Product
-  getProducts: [Product!]!
+  getProducts(filter: FilterInput, sort: String, page: Int, limit: Int): PaginatedProduct
   getOrderById(id: ID!): Order
   getOrders: [Order!]!
   getUsers: [User!]!
