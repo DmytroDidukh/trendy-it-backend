@@ -1,38 +1,39 @@
 #import "../common/images.graphql"
-#import "../common/colors.graphql"
+#import "../common/pagination.graphql"
 
 scalar Date
 
 type Product {
-    id: ID!
-    name: String
-    price: Float
-    oldPrice: Float
-    description: String
-    images: ProductImages
-    colors: Colors
-    available: Boolean
-    sale: Boolean
-    hot: Boolean
-    newItem: Boolean
-    toSlider: Boolean
-    createdAt: Date
-    category: String
-    subcategory: String
+  id: ID!
+  name: String
+  price: Float
+  oldPrice: Float
+  description: String
+  images: ProductImages
+  colors: [String]
+  available: Boolean
+  sale: Boolean
+  hot: Boolean
+  newItem: Boolean
+  toSlider: Boolean
+  createdAt: Date
+}
+
+type PaginatedProduct {
+  products: [Product]
+  pagination: Pagination
 }
 
 input ProductInput {
-    name: String!
-    price: Float!
-    oldPrice: Float
-    description: String
-    available: Boolean
-    sale: Boolean
-    hot: Boolean
-    newItem: Boolean
-    toSlider: Boolean
-    images: ProductImagesInput
-    colors: ColorsInput
-    category: String
-    subcategory: String
+  name: String!
+  price: Float!
+  oldPrice: Float
+  description: String
+  available: Boolean
+  sale: Boolean
+  hot: Boolean
+  newItem: Boolean
+  toSlider: Boolean
+  images: ProductImagesInput
+  colors: [String]
 }

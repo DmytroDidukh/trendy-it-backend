@@ -1,0 +1,11 @@
+input FilterInput {
+  colors: [String]
+  priceRange: [Int]
+  search: String
+  hot: Boolean
+  available: Boolean
+  newItem: Boolean
+  sale: Boolean
+  toSlider: Boolean
+  isHomeQuery: Boolean
+}

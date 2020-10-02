@@ -1,9 +1,94 @@
 import {Product} from '../../models';
-import ImagesService from '../images/images.service'
+import ImagesService from '../images/images.service';
 
 class ProductService {
-    getProducts() {
-        return Product.find();
+    async getProducts({filter, sort, page, limit}) {
+        const query = this.filterItems(filter);
+        const options = {
+            page: parseInt(page, 10) || 1,
+            limit: parseInt(limit, 10) || 12,
+            sort: sort
+        };
+
+        return await Product.paginate(query, options, (err, result) => ({
+            products: result.docs,
+            pagination: {
+                totalDocs: result.totalDocs,
+                currentPage: result.page,
+                totalPages: result.totalPages,
+                hasPrevPage: result.hasPrevPage,
+                hasNextPage: result.hasNextPage
+            }
+        }));
+    }
+
+    filterItems(args = {}) {
+        const {colors, priceRange, search, hot, available, newItem, sale, toSlider, isHomeQuery} = args;
+
+        if (isHomeQuery) {
+            return {available: true, $or: [{hot: true}, {toSlider: true}]}
+        }
+
+        const query = {};
+
+        if (hot) {
+            query.hot = hot;
+        }
+
+        if (toSlider) {
+            query.toSlider = toSlider;
+        }
+
+        if (available) {
+            query.available = available;
+        }
+
+        if (newItem) {
+            query.newItem = newItem;
+        }
+
+        if (sale) {
+            query.sale = sale;
+        }
+
+        if (colors && colors.length) {
+            query.colors = {
+                $elemMatch: {$in: colors}
+            };
+        }
+
+        if (priceRange && priceRange.length) {
+            query.price = {
+                $gte: priceRange[0],
+                $lte: priceRange[1]
+            };
+        }
+
+        if (!(!search || search.trim().length === 0)) {
+            query.$or = [
+                {
+                    name: {$regex: new RegExp(search, 'i')}
+                },
+                {
+                    description: {
+                        $regex: new RegExp(search, 'i')
+                    }
+                }
+            ];
+        }
+
+        return query;
+    }
+
+    async getHomeProducts() {
+        const query = this.filterItems(filter);
+        const options = {
+            page: parseInt(page, 10) || 1,
+            limit: parseInt(limit, 10) || 10,
+            sort: sort
+        };
+
+        return await Product.find({available: true, $or: [{hot: true}, {toSlider: true}]});
     }
 
     getProductById(id) {
@@ -24,15 +109,17 @@ class ProductService {
     }
 
     async deleteProduct(id) {
-        const currentProduct = await this.getProductById(id)
-        const {images} = currentProduct
+        const currentProduct = await this.getProductById(id);
+        const {images} = currentProduct;
 
-        const imagesToDelete = [images.slider, ...Object.values(images.product).map(img => img.publicId)]
-            .filter(val => val)
+        const imagesToDelete = [
+            images.slider,
+            ...Object.values(images.product).map((img) => img.publicId)
+        ].filter((val) => val);
 
-        await ImagesService.deleteImages(imagesToDelete)
+        await ImagesService.deleteImages(imagesToDelete);
 
-        return  Product.findByIdAndRemove(id)
+        return Product.findByIdAndRemove(id);
     }
 }
 

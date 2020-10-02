@@ -4,39 +4,40 @@
 #import "modules/banner/types.graphql"
 #import "modules/novaposhta/types.graphql"
 #import "modules/images/types.graphql"
+#import "modules/common/filter.graphql"
+#import "modules/common/sort.graphql"
 
 type Query {
-    getProductById(id: ID!): Product
-    getProducts: [Product!]!
-    getOrderById(id: ID!): Order
-    getOrders: [Order!]!
-    getUsers: [User!]!
-    getUserByToken: User
-    getBanners: [Banner!]!
-    getBannerById(id: ID!): Banner
-    getBannerByUsability: [Banner!]!
-    getNovaPoshtaCities(city: String):[NovaPoshtaCity]
-    getNovaPoshtaStreets(cityRef: String, street: String):[NovaPoshtaStreet]
-    getNovaPoshtaWarehouses(cityRef: String, city: String): [NovaPoshtaWarehouse]
-    getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
-    createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
-    uploadImage(image: String!): Image
-    deleteImages(images: [String]): [String]
+  getProductById(id: ID!): Product
+  getProducts(filter: FilterInput, sort: String, page: Int, limit: Int): PaginatedProduct
+  getOrderById(id: ID!): Order
+  getOrders: [Order!]!
+  getUsers: [User!]!
+  getUserByToken: User
+  getBanners: [Banner!]!
+  getBannerById(id: ID!): Banner
+  getBannerByUsability: [Banner!]!
+  getNovaPoshtaCities(city: String): [NovaPoshtaCity]
+  getNovaPoshtaStreets(cityRef: String, street: String): [NovaPoshtaStreet]
+  getNovaPoshtaWarehouses(cityRef: String, city: String): [NovaPoshtaWarehouse]
+  getNovaPoshtaPrices(data: NovaPoshtaPriceInput): [NovaPoshtaPrice]
+  createNovaPoshtaOrder(data: NovaPoshtaOrderInput): NovaPoshtaOrder
+  uploadImage(image: String!): Image
+  deleteImages(images: [String]): [String]
 }
 
 type Mutation {
-    addProduct(product: ProductInput!): Product
-    updateProduct(id: ID!, product: ProductInput!): Product
-    deleteProduct(id: ID!): Product
-    updateProductRating(id: ID!, rate: Int): Product
-    addOrder(order: OrderInput!): Order
-    deleteOrder(id: ID!): Order
-    updateOrderStatus(id: ID!, status: String): Order
-    loginUser(user: UserInput!): User
-    updateUserByToken(value: String!, key: String!, token: String!): User
-    registerUser(user: UserInput!): User
-    addBanner(banner: BannerInput): Banner
-    updateBanner(id: ID!, banner: BannerInput): Banner
-    deleteBanner(id: ID!): Banner
+  addProduct(product: ProductInput!): Product
+  updateProduct(id: ID!, product: ProductInput!): Product
+  deleteProduct(id: ID!): Product
+  updateProductRating(id: ID!, rate: Int): Product
+  addOrder(order: OrderInput!): Order
+  deleteOrder(id: ID!): Order
+  updateOrderStatus(id: ID!, status: String): Order
+  loginUser(user: UserInput!): User
+  updateUserByToken(value: String!, key: String!, token: String!): User
+  registerUser(user: UserInput!): User
+  addBanner(banner: BannerInput): Banner
+  updateBanner(id: ID!, banner: BannerInput): Banner
+  deleteBanner(id: ID!): Banner
 }
-
