@@ -1,10 +1,23 @@
-import { Order } from '../../models';
+import {Order, Product} from '../../models';
 import sendEmail from '../../utils/sendmail';
 import orderMailMessage from '../../utils/orderMailMessage';
 
 class OrderService {
-  getOrders() {
-    return Order.find();
+  async getOrders(filter, page) {
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: 20,
+      sort: '-createdAt',
+    };
+    const query = filter ? {status: filter} : {}
+
+    return await Order.paginate(query, options, (err, result) => ({
+      orders: result.docs,
+      pagination: {
+        totalDocs: result.totalDocs,
+        totalPages: result.totalPages,
+      }
+    }));
   }
 
   getOrderById(id) {

@@ -1,7 +1,7 @@
 import orderService from './order.service';
 
 const orderQuery = {
-  getOrders: () => orderService.getOrders(),
+  getOrders: (_, args) => orderService.getOrders(args.filter, args.page),
   getOrderById: (parent, args) => orderService.getOrderById(args.id)
 };
 

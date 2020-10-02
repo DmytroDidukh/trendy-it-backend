@@ -3,7 +3,7 @@ import ImagesService from '../images/images.service';
 
 class ProductService {
     async getProducts({filter, sort, page, limit}) {
-        const query = this.filterItems(filter);
+        const query = this.filterProducts(filter);
         const options = {
             page: parseInt(page, 10) || 1,
             limit: parseInt(limit, 10) || 12,
@@ -22,7 +22,38 @@ class ProductService {
         }));
     }
 
-    filterItems(args = {}) {
+    getProductById(id) {
+        return Product.findById(id);
+    }
+
+    addProduct(data) {
+        const product = new Product(data);
+        return product.save();
+    }
+
+    updateProduct({id, product}) {
+        return Product.findByIdAndUpdate(
+            id,
+            {$set: {...product}},
+            {new: true}
+        );
+    }
+
+    async deleteProduct(id) {
+        const currentProduct = await this.getProductById(id);
+        const {images} = currentProduct;
+
+        const imagesToDelete = [
+            images.slider,
+            ...Object.values(images.product).map((img) => img.publicId)
+        ].filter((val) => val);
+
+        await ImagesService.deleteImages(imagesToDelete);
+
+        return Product.findByIdAndRemove(id);
+    }
+
+    filterProducts(args = {}) {
         const {colors, priceRange, search, hot, available, newItem, sale, toSlider, isHomeQuery} = args;
 
         if (isHomeQuery) {
@@ -78,48 +109,6 @@ class ProductService {
         }
 
         return query;
-    }
-
-    async getHomeProducts() {
-        const query = this.filterItems(filter);
-        const options = {
-            page: parseInt(page, 10) || 1,
-            limit: parseInt(limit, 10) || 10,
-            sort: sort
-        };
-
-        return await Product.find({available: true, $or: [{hot: true}, {toSlider: true}]});
-    }
-
-    getProductById(id) {
-        return Product.findById(id);
-    }
-
-    addProduct(data) {
-        const product = new Product(data);
-        return product.save();
-    }
-
-    updateProduct({id, product}) {
-        return Product.findByIdAndUpdate(
-            id,
-            {$set: {...product}},
-            {new: true}
-        );
-    }
-
-    async deleteProduct(id) {
-        const currentProduct = await this.getProductById(id);
-        const {images} = currentProduct;
-
-        const imagesToDelete = [
-            images.slider,
-            ...Object.values(images.product).map((img) => img.publicId)
-        ].filter((val) => val);
-
-        await ImagesService.deleteImages(imagesToDelete);
-
-        return Product.findByIdAndRemove(id);
     }
 }
 
