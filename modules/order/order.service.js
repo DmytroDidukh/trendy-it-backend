@@ -69,6 +69,7 @@ class OrderService {
                 {"delivery.method": {$regex: new RegExp(search, 'i')}},
                 {"connectionMethod": {$regex: new RegExp(search, 'i')}},
                 {"paymentMethod": {$regex: new RegExp(search, 'i')}},
+                {"orderId": {$regex: new RegExp(search, 'i')}},
             ];
         }
 
