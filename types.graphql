@@ -9,7 +9,12 @@
 
 type Query {
   getProductById(id: ID!): Product
-  getProducts(filter: FilterInput, sort: String, page: Int, limit: Int): PaginatedProduct
+  getProducts(
+    filter: FilterInput
+    sort: String
+    page: Int
+    limit: Int
+  ): PaginatedProduct
   getOrderById(id: ID!): Order
   getOrders(filter: FilterInput, page: Int): PaginatedOrder
   getUsers: [User!]!
