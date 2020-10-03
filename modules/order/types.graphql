@@ -15,6 +15,11 @@ type Order {
   createdAt: Date
 }
 
+type PaginatedOrder {
+  orders: [Order]
+  pagination: Pagination
+}
+
 input OrderInput {
   customer: CustomerInput!
   delivery: DeliveryInput!

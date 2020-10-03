@@ -8,4 +8,5 @@ input FilterInput {
   sale: Boolean
   toSlider: Boolean
   isHomeQuery: Boolean
+  status: String
 }
