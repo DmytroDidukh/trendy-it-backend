@@ -83,9 +83,7 @@ class ProductService {
         }
 
         if (colors && colors.length) {
-            query.colors = {
-                $elemMatch: {$in: colors}
-            };
+            query.color = {$in: colors}
         }
 
         if (priceRange && priceRange.length) {
