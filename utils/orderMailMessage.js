@@ -86,6 +86,7 @@ const orderMailMessage = (order) => {
                 padding: 50px;
                 width: 500px;
                 box-sizing: content-box;'>
+            <img style="width: 100px; display: block; margin: 0 auto" src="https://res.cloudinary.com/d-didukh/image/upload/v1601889295/trendy-it/logo-light_rkygqe.png" alt="Trendy IT">
             <h3 style='text-align: center;'>Замовлення №: ${order.orderId}</h3>
             <hr/>
             <div>
@@ -150,7 +151,7 @@ const orderMailMessage = (order) => {
                 } UAH</span></p>
                 <hr/>
                 <p>Наш менеджер зв‘яжеться з Вами у зручний для Вас спосіб.</p>
-                <h4>З найкращими побажаннями, команда Trendy IT 
+                <h4>З найкращими побажаннями, Trendy IT 
                     <span style='background: #009344;
                        display: inline-block;
                        width: 8px;
