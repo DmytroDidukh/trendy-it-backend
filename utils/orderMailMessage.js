@@ -100,7 +100,10 @@ const orderMailMessage = (order) => {
                   order.customer.phone
                 }</span></p>
                 <br/>
-                <p>Метод зв‘язку: <span style='font-weight: bold; margin-left: 5px;'>${
+                  <p>Спосіб оплати: <span style='font-weight: bold; margin-left: 5px;'>${
+                    order.paymentMethod
+                  }</span></p>
+                <p>Спосіб зв‘язку: <span style='font-weight: bold; margin-left: 5px;'>${
                   order.connectionMethod
                 }</span></p>
                 <p>Спосіб доставки: <span style='font-weight: bold; margin-left: 5px;'>${
@@ -150,7 +153,7 @@ const orderMailMessage = (order) => {
                   totalByProducts + order.deliveryPrice
                 } UAH</span></p>
                 <hr/>
-                <p>Наш менеджер зв‘яжеться з Вами у зручний для Вас спосіб.</p>
+                <p>Ми зв‘яжемось з Вами у зручний для Вас спосіб.</p>
                 <h4>З найкращими побажаннями, Trendy IT 
                     <span style='background: #009344;
                        display: inline-block;
