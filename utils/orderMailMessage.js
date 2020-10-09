@@ -86,6 +86,7 @@ const orderMailMessage = (order) => {
                 padding: 50px;
                 width: 500px;
                 box-sizing: content-box;'>
+            <img style="width: 100px; display: block; margin: 0 auto" src="https://res.cloudinary.com/d-didukh/image/upload/v1601889295/trendy-it/logo-light_rkygqe.png" alt="Trendy IT">
             <h3 style='text-align: center;'>Замовлення №: ${order.orderId}</h3>
             <hr/>
             <div>
@@ -99,7 +100,10 @@ const orderMailMessage = (order) => {
                   order.customer.phone
                 }</span></p>
                 <br/>
-                <p>Метод зв‘язку: <span style='font-weight: bold; margin-left: 5px;'>${
+                  <p>Спосіб оплати: <span style='font-weight: bold; margin-left: 5px;'>${
+                    order.paymentMethod
+                  }</span></p>
+                <p>Спосіб зв‘язку: <span style='font-weight: bold; margin-left: 5px;'>${
                   order.connectionMethod
                 }</span></p>
                 <p>Спосіб доставки: <span style='font-weight: bold; margin-left: 5px;'>${
@@ -149,8 +153,8 @@ const orderMailMessage = (order) => {
                   totalByProducts + order.deliveryPrice
                 } UAH</span></p>
                 <hr/>
-                <p>Наш менеджер зв‘яжеться з Вами у зручний для Вас спосіб.</p>
-                <h4>З найкращими побажаннями, команда Trendy IT 
+                <p>Ми зв‘яжемось з Вами у зручний для Вас спосіб.</p>
+                <h4>З найкращими побажаннями, Trendy IT 
                     <span style='background: #009344;
                        display: inline-block;
                        width: 8px;

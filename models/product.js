@@ -10,7 +10,7 @@ const productSchema = new Schema({
     slider: Object,
     product: [Object]
   },
-  colors: [String],
+  color: String,
   available: Boolean,
   hot: Boolean,
   sale: Boolean,
